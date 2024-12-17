@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html>
+<link href="https://fonts.cdnfonts.com/css/chalkduster" rel="stylesheet">
+<style>
+    @import url('https://fonts.cdnfonts.com/css/chalkduster');
+</style>
+
+<head>
+    <!--<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>-->
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>-->
+    <!--<script src="http://www.google.com/jsapi" type="text/javascript"></script>-->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+
+    <link href="styles.css" rel="stylesheet" />
+    <link href="fontawesome.all.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+	<script defer src="fontawesome.all.min.js"></script>
+
+    <script src="script.js"></script>
+
+    <link rel="icon" type="image/png" href="webpage_assets/dreamsim_icon.png" />
+
+    <title>Personalized Representation from Personalized Generation</title>
+    <meta property="og:image" content="./webpage_assets/teaser.jpg">
+    <!-- Facebook automatically scrapes this. Go to https://developers.facebook.com/tools/debug/ if you update and want to force Facebook to rescrape. -->
+    <meta property="og:title" content="Personalized Representation from Personalized Generation">
+    <meta property="og:description" content="We generate a new benchmark of synthetic image triplets that span a wide range of mid-level variations, labeled with human similarity judgments.
+											The dots below each image indicate which image is considered most similar to the reference by humans vs several existing metrics and our new metric, DreamSim.">
+
+    <!-- Get from Google Analytics -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async="" src=""></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-75863369-6');
+    </script>
+</head>
+
+<body>
+    <br>
+    <center>
+        <span class="near-black" style="font-size:36px;font-weight:bold">Personalized Representation from Personalized Generation</span>
+        <br>
+        <table align="center" width="910px">
+            <tbody>
+                <tr>
+                    <td align="center" width="265px">
+                        <center>
+                            <span style="font-size:22px"><a href="https://ssundaram21.github.io/">Shobhita Sundaram</a><sup style="vertical-align: sub;padding-left: 2px">*</sup><sup style="vertical-align: sub;padding-left: 2px">†</sup><sup style="font-size: 0.7em;">1</sup> 
+                                </span>
+                        </center>
+                    </td>
+                    <td align="center" width="235px">
+                        <center>
+                            <span style="font-size:22px"><a href="https://juliachae.github.io">Julia Chae</a><sup style="vertical-align: sub;padding-left: 2px">*</sup><sup style="font-size: 0.7em;">1</sup></span>
+                        </center>
+                    </td>
+                    <td align="center" width="260px">
+                        <center>
+                            <span style="font-size:22px"><a href="https://people.csail.mit.edu/yonglong/">Yonglong Tian</a><sup
+                                        style="font-size: 0.7em;">2</sup></span>
+                        </center>
+                    </td>
+                    <td align="center" width="190px">
+                        <center>
+                            <span style="font-size:22px"><a href="https://beerys.github.io">Sara Beery</a><sup style="vertical-align: sub;padding-left: 2px">‡</sup><sup style="font-size: 0.7em;padding-left: 1px;">1</sup></span>
+                        </center>
+                    </td>
+                    <td align="center" width="190px">
+                        <center>
+                            <span style="font-size:22px"><a href="http://web.mit.edu/phillipi/">Phillip Isola]</a><sup style="vertical-align: sub;padding-left: 2px">‡</sup><sup style="font-size: 0.7em;padding-left: 1px;">1</sup></span>
+                        </center>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <table align="center" width="300px">
+            <tbody>
+                <tr>
+                    <td style="padding:10px">
+						<sup style="padding-right: 2px;font-size: 18px;top: -0.85em;">1</sup><img style="height:45px" src="./webpage_assets/MIT.png">
+                    </td>
+                    <td style="padding:10px">
+						<sup style="padding-right: 2px;font-size: 18px;top: -0.85em;">2</sup><img style="height:60px" src="./webpage_assets/google.png">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table align="center" width="500px">
+            <tbody>
+                <tr>
+                    <td align="center" width="500px">
+                        <center>
+                            <i><span style="font-size:14px">* Equal contribution</span></i>
+                        </center>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" width="500px">
+                        <center>
+                            <i><span style="font-size:14px">‡ Equal advising</span></i>
+                        </center>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" width="500px">
+                        <center>
+                            <i><span style="font-size:14px">† Work partially done as an intern at Google Research</span></i>
+                        </center>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table width="800" border="0" align="center" class="menu"
+            style="margin-bottom: 20px;margin-top: 20px;font-weight: bold;font-size: 20px;">
+            <tbody>
+                <tr>
+                    <td align="center">
+						<!--<span class="bg-near-black f6 no_hover br-pill ph3 pv2 dib" style="vertical-align:top;height:36px">
+							<a style="color:inherit;text-decoration:none;font-size:15px" href="./2306.09344.pdf" target="_blank">
+							<i style="padding-right:2px;font-size:23px" class="fa fa-file-pdf" aria-hidden="true"></i>
+							Paper
+							</a>
+						</span>-->
+						<span class="bg-near-black f6 no_hover br-pill ph3 pv2 dib" style="vertical-align:top;height:36px">
+							<a style="vertical-align:sub;color:inherit;text-decoration:none;font-size:15px" href="https://arxiv.org/abs/2306.09344" target="_blank">
+							<i style="padding-right:2px;font-size:20px" class="ai ai-arxiv" aria-hidden="true"></i>
+							Arxiv
+							</a>
+						</span>
+						<span class="bg-near-black f6 no_hover br-pill ph3 pv2 dib" style="vertical-align:top;height:36px">
+							<a style="color:inherit;text-decoration:none;font-size:15px" href="https://github.com/ssundaram21/dreamsim" target="_blank">
+							<i style="padding-right:2px;font-size:23px" class="fab fa-github" aria-hidden="true"></i>
+							Code & Data
+							</a>
+						</span>
+						<!-- <span class="bg-near-black f6 no_hover br-pill ph3 pv2 dib" style="vertical-align:top;height:36px">
+							<span style="display:inline-flex;padding-top:4.2px">
+							<a style="vertical-align:text-top;color:inherit;text-decoration:none;font-size:15px" href="https://colab.research.google.com/drive/1taEOMzFE9g81D9AwH27Uhy2U82tQGAVI?usp=sharing" target="_blank">
+							<img style="padding-bottom:3px;padding-right:2px;height:18px" src="webpage_assets/colab.png" aria-hidden="true"></img>
+							Colab
+							</span>
+							</a>
+						</span> -->
+                    <!-- <td align="center">
+						<span class="bg-near-black f6 no_hover br-pill ph3 pv2 dib" style="vertical-align:top;height:36px">
+							<a style="vertical-align:sub;color:inherit;text-decoration:none;font-size:15px" href="https://voxel51.com/blog/teaching-androids-to-dream-of-sheep/" target="_blank">
+							<img style="padding-bottom:5px;padding-right:2px;font-size:20px;height:22px" src="webpage_assets/voxel51.png" aria-hidden="true"></img>
+							Blog Post
+							</a>
+						</span>
+						<span class="bg-near-black f6 no_hover br-pill ph3 pv2 dib" style="vertical-align:top;height:36px">
+							<a style="vertical-align:sub;color:inherit;text-decoration:none;font-size:15px" href="https://try.fiftyone.ai/datasets/nights/samples" target="_blank">
+							<img style="padding-bottom:5px;padding-right:2px;font-size:20px;height:22px" src="webpage_assets/voxel51.png" aria-hidden="true"></img>
+							Explore the Dataset!
+							</a>
+						</span> -->
+						<span class="bg-near-black f6 no_hover br-pill ph3 pv2 dib" style="vertical-align:top;height:36px">
+							<a style="vertical-align:sub;color:inherit;text-decoration:none;font-size:15px" href="#bibtex" target="_self">
+							<i style="padding-right:2px;font-size:20px" class="fa fa-quote-left" aria-hidden="true"></i>
+							Bibtex
+							</a>
+						</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </center>
+
+    <center>
+        <img class="round" style="width:900px" src="./webpage_assets/teaser.jpg">
+    </center>
+    <br>
+	<p id="teaser-description">
+        <span id="bold">Learning personalized representations from limited real data.</span> 
+		 We explore whether and how synthetic data can be used to train a <em>personalized representation</em>. 
+         Given a few real images of an instance, we generate new images and contrastively fine-tune a general-purpose pretrained model.
+         This gives us a personalized representation, useful for diverse downstream tasks.
+    </p>
+	<br>
+    <hr>
+
+    <center>
+        <h1>Abstract</h1>
+    </center>
+    <table align="center" width="900px">
+
+        <tbody>
+            <tr>
+                <td>
+                    Modern vision models excel at general purpose downstream tasks. It is unclear, however, 
+                    how they may be used for personalized vision tasks, which are both fine-grained and data-scarce. 
+                    Recent work has successfully applied synthetic data to general-purpose representation learning, 
+                    while advances in T2I diffusion models have enabled the generation of personalized images from just a few real examples. 
+                    Here, we explore a potential connection between these ideas, and formalize the challenge of using personalized synthetic 
+                    data to learn <em>personalized representations</em>, which encode knowledge about an object of interest and may be 
+                    flexibly applied to any downstream task relating to the target object. We introduce an evaluation suite for this challenge, 
+                    including reformulations of two existing datasets and a novel dataset explicitly constructed for this purpose, and propose 
+                    a contrastive learning approach that makes creative use of image generators. We show that our method improves personalized 
+                    representation learning for diverse downstream tasks, from recognition to segmentation, and analyze characteristics of image 
+                    generation approaches that are key to this gain. 
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <hr>
+
+    <center>
+        <h1>What is a Personalized Representation?</h1>
+    </center>
+    <p id="teaser-description">
+    <!-- Adapting large vision models (CLIP, DINO, etc) to fine-grained, data-scarce tasks -- such as personal tasks -- remains challenging. Can we adapt them to personalized tasks using just a few images?
+<br>
+<br> -->
+    Adapting large vision models such as CLIP, DINO, etc to personalized tasks -- which are fine-grained and data-scarce -- remains difficult.
+    <br>
+    <br>
+    We introduce the notion of a <span id="bold">personalized representation:</span> a general-purpose representation that has been specialized to a target object, separating it from all other objects, and can be flexibly applied to any downstream task. In the same way that general representations can be applied few- or zero-shot to downstream tasks, a personalized representation can be applied to classification, segmentation, etc for the particular object.
+    <br>
+    <br>
+    In this paper, we ask: <span id="bold">Is it possible to learn a personalized representation from only three real images of a single object?</span>
+    </p>
+
+
+    <br>
+    <hr>
+    <center>
+        <h1>Method</h1>
+    </center>
+    <br>
+    <center>
+        <div class="container-fluid" id="method-container" align="center" width="900px">
+            <div class="row">
+                <div class="col" id="method-figure">
+                    <img class="round" style="width:500px" src="./webpage_assets/training.jpg">
+                </div>
+                <div class="col" id="method-description">
+                    We introduce a three-stage pipeline for training personalized representations:
+                    <ol>
+                        <li>Prepare a personalized generator (such as DreamBooth) using the small real-image dataset.</li>
+                        <li>Generate synthetic positives (i.e. images of the target instance) and negatives (images of other objects in the same semantic category).</li>
+                        <li>Contrastively fine-tune a general-purpose model using LoRA.</li>
+                    </ol>
+                    We investigate different ways of generating synthetic data, including with <span id="bold">diffusion text-to-image models</span> and <span id="bold">computationally cheaper approaches</span> that use internet-available data.
+                </div>
+            </div>
+        </div>
+
+    </center>
+    <br>
+    <hr>
+    <center>
+        <h1>Evaluation</h1>
+    </center>
+    <br>
+    <table width="900px" border="0" align="center">
+        <tbody>
+            <tr>
+                <div id="datasetCarousel" class="carousel slide dataset-carousel" data-ride="carousel"
+                    data-interval="7000">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div>
+                                <img class="dataset-img" src="./webpage_assets/pods.jpg">
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div>
+                                <img class="dataset-img" src="./webpage_assets/dogs.jpg">
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div>
+                                <img class="dataset-img" src="./webpage_assets/df2.jpg">
+                            </div>
+                        </div>
+                    </div>
+
+                    <ol class="carousel-indicators" style="bottom: -35px;">
+                        <li data-target="#datasetCarousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#datasetCarousel" data-slide-to="1"></li>
+                        <li data-target="#datasetCarousel" data-slide-to="2"></li>
+                    </ol>
+
+                    <a class="carousel-control-prev" href="#datasetCarousel" role="button" data-slide="prev"
+                        style="height: 500px;">
+                        <div class="slider-navigation-previous2">
+                            <svg viewBox="0 0 50 80" xml:space="preserve" style="margin-right: 4px;">
+                                <polyline fill="white" stroke-width=".5em" stroke-linecap="round"
+                                    stroke-linejoin="round" points="45.63,75.8 0.375,38.087 45.63,0.375 ">
+                                </polyline>
+                            </svg>
+                        </div>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#datasetCarousel" role="button" data-slide="next"
+                        style="height: 500px;">
+                        <div class="slider-navigation-next2">
+                            <svg viewBox="0 0 50 80" xml:space="preserve" style="margin-left: 4px;">
+                                <polyline fill="white" stroke-width=".5em" stroke-linecap="round"
+                                    stroke-linejoin="round" points="0.375,0.375 45.63,38.087 0.375,75.8 ">
+                                </polyline>
+                            </svg>
+                        </div>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <p id="inversion-description">
+        We evaluate on three datasets designed to assess <span id="bold">robustness and generalization across diverse, in-the-wild scenarios</span>. We reformulate the <span id="bold">DogFaceNet</span> and <span id="bold">DeepFashion2</span> datasets to evaluate representations across four downstream tasks (classification, retrieval, detection, segmentation). We also introduce the <span id="bold">Personal Object Discrimination Suite (PODS): A new dataset</span> for personalized vision with 100 objects and four test splits designed to test different distribution shifts.
+    </p>
+    <br>
+    <hr>
+    <center>
+        <h1>Results</h1>
+    </center>
+    
+	<h4 id="teaser-description" style="text-align: left;"><span id="bold">1. Qualitative Results: Dense Prediction Maps</span></h4>
+    <p id="inversion-description">
+        <!-- <span id="bold">Dense prediction maps for pretrained and personalized models.</span> -->
+        We visualize dense prediction maps, showing the similarity of patch embeddings between test and train images. Personalized representations (right) localize the target instance better than pretrained embeddings (center), even for cases with occlusions or similar surrounding objects. 
+    </p>
+	
+    <table width="900px" border="0" align="center">
+        <tbody>
+            <tr>
+                <div id="inversionCarousel" class="carousel slide inversion-carousel" data-ride="carousel"
+                    data-interval="7000">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div>
+                                <img class="inversion-img" src="./webpage_assets/heatmap1.jpg" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div>
+                                <img class="inversion-img" src="./webpage_assets/heatmap2.jpg" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div>
+                                <img class="inversion-img" src="./webpage_assets/heatmap3.jpg" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div>
+                                <img class="inversion-img" src="./webpage_assets/heatmap4.jpg" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div>
+                                <img class="inversion-img" src="./webpage_assets/heatmap5.jpg" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div>
+                                <img class="inversion-img" src="./webpage_assets/heatmap6.jpg" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <ol class="carousel-indicators" style="bottom: -45px;">
+                        <li data-target="#inversionCarousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#inversionCarousel" data-slide-to="1"></li>
+                        <li data-target="#inversionCarousel" data-slide-to="2"></li>
+                        <li data-target="#inversionCarousel" data-slide-to="3"></li>
+                        <li data-target="#inversionCarousel" data-slide-to="4"></li>
+                        <li data-target="#inversionCarousel" data-slide-to="5"></li>
+                    </ol>
+
+                    <a class="carousel-control-prev" href="#inversionCarousel" role="button" data-slide="prev"
+                        style="height: 500px;">
+                        <div class="slider-navigation-previous">
+                            <svg viewBox="0 0 50 80" xml:space="preserve" style="margin-right: 4px;">
+                                <polyline fill="white" stroke-width=".5em" stroke-linecap="round"
+                                    stroke-linejoin="round" points="45.63,75.8 0.375,38.087 45.63,0.375 ">
+                                </polyline>
+                            </svg>
+                        </div>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#inversionCarousel" role="button" data-slide="next"
+                        style="height: 500px;">
+                        <div class="slider-navigation-next">
+                            <svg viewBox="0 0 50 80" xml:space="preserve" style="margin-left: 4px;">
+                                <polyline fill="white" stroke-width=".5em" stroke-linecap="round"
+                                    stroke-linejoin="round" points="0.375,0.375 45.63,38.087 0.375,75.8 ">
+                                </polyline>
+                            </svg>
+                        </div>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    
+    <p id="inversion-description" style="margin-top: 10px;">
+        <!-- <span id="bold">Dense prediction maps for pretrained and personalized models.</span> -->
+        <span id="bold"><em><u>*The target object is highlighted in the test images for visualization purposes only.</u></em></span>
+    </p>
+    <br>
+    <h4 id="teaser-description" style="text-align: left;"><span id="bold">2. Personalized representations improve over pretrained representations.</span></h4>
+    <p id="teaser-description">
+		<!-- <span id="bold">Results across datasets, backbones, and tasks.</span> -->
+        For each evaluation dataset, we train personalized representations and then evaluate them directly on the four downstream tasks (without training task-specific heads). <span id="bold">Personalized representations outperform their pretrained counterparts across datasets, backbones, and tasks (green arrows indicate better performance).</span>
+    </p>
+    <center>
+        <img class="round" style="width:900px" src="./webpage_assets/results_table.jpg">
+    </center>
+    <br>
+    <br>
+    
+    <h4 id="teaser-description" style="text-align: left;"><span id="bold">3. Synthetic data still helps at larger scales</span></h4>
+    
+    <center>
+        <div class="container-fluid" id="method-container" align="center" width="900px">
+            <div class="row">
+                <div class="col" id="method-figure">
+                    <img class="round" style="width:400px; margin-left: 50px;" src="./webpage_assets/scaling_curve_avg.jpg">
+                </div>
+                <div class="col" id="method-description">
+                    We compare learning personalized representations from real data only and real+synthetic as the size of the real dataset scales. Synthetic data still leads to improvements, even after real-trained performance saturates.
+                </div>
+            </div>
+        </div>
+    </center>
+    <!-- <h4 id="teaser-description" style="text-align: left;"><span id="bold">3. OPTION 1: Ablation/Analysis</span></h4>
+    <center>
+        <div class="container-fluid" id="method-container" align="center" width="900px">
+            <div class="row">
+                <div class="col" id="method-figure">
+                    <img class="round" style="width:400px; margin-left: 50px;" src="./webpage_assets/cp_db_comp.jpg">
+                </div>
+                <div class="col" id="method-figure">
+                    <img class="round" style="width:500px; margin-right: 50px" src="./webpage_assets/pods_split_results.jpg">
+                </div>
+            </div>
+        </div>
+    </center>
+    
+    <p id="teaser-description" style="color: red;">
+		Say something about how we compare dreambooth to computationally cheaper alternatives; Combining the two is best, DB and CP lead to different types of generalization.
+    </p>
+
+    <center>
+        <div class="container-fluid" id="method-container" align="center" width="900px">
+            <div class="row">
+                <div class="col" id="method-figure">
+                    <img class="round" style="width:400px; margin-left: 50px;" src="./webpage_assets/scaling_curve_avg.jpg">
+                </div>
+                <div class="col" id="method-description" style="color: red;">
+                    Synthetic data still improves on real data even after performance saturates (we could also just have this, since it's pretty visually clear/compelling -- or even combine with option 2 below)
+                </div>
+            </div>
+        </div>
+    </center>
+
+    <h4 id="teaser-description" style="text-align: left;"><span id="bold">3. OPTION 2: Challenging qualitative examples</span></h4>
+    <p id="teaser-description" style="color: red;">
+		if we want something more visually compelling
+    </p>
+    <table width="900px" border="0" align="center">
+        <tbody>
+            <tr>
+                <div id="inversionCarousel" class="carousel slide inversion-carousel" data-ride="carousel"
+                    data-interval="7000">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div>
+                                <img class="inversion-img" src="./webpage_assets/hard_1.jpg" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div>
+                                <img class="inversion-img" src="./webpage_assets/hard_2.jpg" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div>
+                                <img class="inversion-img" src="./webpage_assets/hard_3.jpg" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <ol class="carousel-indicators" style="bottom: -45px;">
+                        <li data-target="#inversionCarousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#inversionCarousel" data-slide-to="1"></li>
+                        <li data-target="#inversionCarousel" data-slide-to="2"></li>
+                    </ol>
+
+                    <a class="carousel-control-prev" href="#inversionCarousel" role="button" data-slide="prev"
+                        style="height: 500px;">
+                        <div class="slider-navigation-previous">
+                            <svg viewBox="0 0 50 80" xml:space="preserve" style="margin-right: 4px;">
+                                <polyline fill="white" stroke-width=".5em" stroke-linecap="round"
+                                    stroke-linejoin="round" points="45.63,75.8 0.375,38.087 45.63,0.375 ">
+                                </polyline>
+                            </svg>
+                        </div>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#inversionCarousel" role="button" data-slide="next"
+                        style="height: 500px;">
+                        <div class="slider-navigation-next">
+                            <svg viewBox="0 0 50 80" xml:space="preserve" style="margin-left: 4px;">
+                                <polyline fill="white" stroke-width=".5em" stroke-linecap="round"
+                                    stroke-linejoin="round" points="0.375,0.375 45.63,38.087 0.375,75.8 ">
+                                </polyline>
+                            </svg>
+                        </div>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+
+            </tr>
+        </tbody>
+    </table> -->
+    <br>
+    <br>
+    <h4 id="teaser-description" style="text-align: left;"><span id="bold">Please refer to the paper for more results, ablations, and visualizations!</span></h4>
+	<br>
+    <hr>
+    <center>
+        <h1>Acknowledgements</h1>
+        <table align="center" width="900px">
+            <tbody>
+                <tr>
+                    <td>
+                    This work was supported by the NSF GRFP Fellowship to Shobhita Sundaram, <em>add more acknowledgements</em>. 
+					</td>
+                </tr>
+            </tbody>
+        </table>
+    </center>
+    <br>
+    <hr>
+    <center>
+        <h1 name="bibtex" id="bibtex">Bibtex</h1>
+    </center>
+    <div class="col" class="code-col">
+        <code style="font-size: 14px;">
+            @article{sundaram2024personalized,<br>
+                &ensp;title={Personalized Representation from Personalized Generation},<br>
+                &ensp;author={Sundaram, Shobhita and Chae, Julia and Tian, Yonglong and Beery, Sara and Isola, Phillip},<br>
+                &ensp;journal={Arxiv},<br>
+		&ensp;year={2024}<br>
+              }
+        </code>
+    </div>
+    <br>
+    <hr>
+</body>
+
+</html>
